@@ -1,0 +1,447 @@
+/* Gourmet Haven - Premium CSS Stylesheet */
+
+:root {
+    --bg-darkest: #0b0b0d;
+    --bg-darker: #101013;
+    --bg-card: #16161c;
+    --bg-card-hover: #1f1f27;
+    --gold: #d4af37;
+    --gold-hover: #f3cf5a;
+    --gold-soft: rgba(212, 175, 55, 0.12);
+    --gold-soft-hover: rgba(212, 175, 55, 0.22);
+    --gray-light: #e0e0e3;
+    --gray-muted: #888891;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Typography & Layout Reset */
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-darkest) !important;
+    color: var(--gray-light) !important;
+    overflow-x: hidden;
+}
+
+.font-playfair {
+    font-family: 'Playfair Display', serif;
+}
+
+.font-outfit {
+    font-family: 'Outfit', sans-serif;
+}
+
+.letter-spacing-1 {
+    letter-spacing: 1px;
+}
+
+.letter-spacing-2 {
+    letter-spacing: 2px;
+}
+
+.tracking-wide {
+    letter-spacing: 1.5px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-darkest);
+}
+::-webkit-scrollbar-thumb {
+    background: #25252d;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}
+
+/* Utilities */
+.bg-darker {
+    background-color: var(--bg-darker) !important;
+}
+
+.bg-card-dark {
+    background-color: var(--bg-card) !important;
+}
+
+.bg-dark-semi {
+    background-color: rgba(16, 16, 19, 0.8) !important;
+}
+
+.bg-dark-transparent {
+    background-color: rgba(11, 11, 13, 0.4) !important;
+    backdrop-filter: blur(10px);
+}
+
+.text-gold {
+    color: var(--gold) !important;
+}
+
+.bg-gold {
+    background-color: var(--gold) !important;
+}
+
+.bg-gold-soft {
+    background-color: var(--gold-soft) !important;
+}
+
+.text-gray-light {
+    color: var(--gray-light) !important;
+}
+
+.text-muted {
+    color: #b0b0b8 !important;
+}
+
+.fs-7 {
+    font-size: 0.88rem !important;
+}
+
+.fs-8 {
+    font-size: 0.8rem !important;
+}
+
+.fs-9 {
+    font-size: 0.72rem !important;
+}
+
+.hover-zoom {
+    transition: var(--transition);
+}
+
+.hover-zoom:hover {
+    transform: scale(1.05);
+}
+
+/* Custom Buttons */
+.btn-gold {
+    background-color: var(--gold) !important;
+    color: #000000 !important;
+    border: 1px solid var(--gold) !important;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.btn-gold:hover {
+    background-color: var(--gold-hover) !important;
+    border-color: var(--gold-hover) !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+    transform: translateY(-2px);
+}
+
+.btn-outline-gold {
+    border-color: var(--gold) !important;
+    color: var(--gold) !important;
+    background-color: transparent !important;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-outline-gold:hover {
+    background-color: var(--gold) !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+
+.btn-outline-white {
+    border-color: #ffffff !important;
+    color: #ffffff !important;
+    background-color: transparent !important;
+    transition: var(--transition);
+}
+
+.btn-outline-white:hover {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    transform: translateY(-2px);
+}
+
+/* Navigation Overrides */
+#mainNavbar {
+    border-bottom: 1px solid transparent;
+}
+
+#mainNavbar.navbar-scrolled {
+    background-color: rgba(11, 11, 13, 0.9) !important;
+    border-bottom: 1px solid var(--border-color);
+    backdrop-filter: blur(15px);
+}
+
+#mainNavbar .nav-link {
+    color: var(--gray-muted);
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+}
+
+#mainNavbar .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    background-color: var(--gold);
+    transition: var(--transition);
+    transform: translateX(-50%);
+}
+
+#mainNavbar .nav-link:hover, 
+#mainNavbar .nav-link.active {
+    color: #ffffff !important;
+}
+
+#mainNavbar .nav-link:hover::after, 
+#mainNavbar .nav-link.active::after {
+    width: 80%;
+}
+
+.cart-toggle-btn {
+    border-color: var(--border-color) !important;
+    color: #ffffff !important;
+    transition: var(--transition);
+}
+
+.cart-toggle-btn:hover {
+    border-color: var(--gold) !important;
+    color: var(--gold) !important;
+    background-color: var(--gold-soft) !important;
+}
+
+/* Search Box positioning */
+.search-box-container input {
+    font-size: 0.8rem;
+    padding-left: 2.2rem !important;
+    border-color: var(--border-color);
+    transition: var(--transition);
+}
+
+.search-box-container input:focus {
+    box-shadow: 0 0 0 0.2rem var(--gold-soft);
+    border-color: var(--gold);
+    background-color: var(--bg-darkest) !important;
+}
+
+.search-box-container .search-icon {
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Hero / Carousel Section */
+.hero-carousel-section {
+    height: 90vh;
+    width: 100%;
+    position: relative;
+}
+
+.hero-carousel-section .carousel-item {
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-dark-semi {
+    background-color: rgba(0, 0, 0, 0.45);
+}
+
+/* Partner Restaurants section cards */
+.restaurant-card {
+    border-color: var(--border-color) !important;
+    transition: var(--transition);
+    border-radius: 14px !important;
+    overflow: hidden;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 10px rgba(212, 175, 55, 0.1);
+}
+
+.card-img-wrapper img {
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.restaurant-card:hover .card-img-wrapper img,
+.food-card:hover .card-img-wrapper img {
+    transform: scale(1.08);
+}
+
+.bg-gradient-dark {
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+}
+
+/* Food Selection Cards */
+.food-card {
+    border-color: var(--border-color) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.food-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(212, 175, 55, 0.4) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.bg-overlay-dark {
+    background-color: rgba(0,0,0,0.65);
+    backdrop-filter: blur(2px);
+}
+
+.food-card:hover .card-img-overlay {
+    opacity: 1 !important;
+}
+
+/* Filter controls custom theme matching */
+.filter-panel {
+    border-color: var(--border-color) !important;
+}
+
+.filter-panel select,
+.filter-panel input[type="text"] {
+    border-color: var(--border-color);
+}
+
+.filter-panel select:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 0.2rem var(--gold-soft);
+}
+
+/* Testimonial slider Indicators */
+#testimonialsCarousel .carousel-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--gray-muted);
+}
+
+#testimonialsCarousel .carousel-indicators button.active {
+    background-color: var(--gold);
+}
+
+/* Form controls */
+form input,
+form textarea {
+    border-color: var(--border-color) !important;
+}
+
+form input:focus,
+form textarea:focus {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 0.2rem var(--gold-soft) !important;
+    background-color: var(--bg-darkest) !important;
+}
+
+/* Cart Offcanvas styling */
+.offcanvas {
+    background-color: var(--bg-darkest) !important;
+}
+
+.offcanvas-header {
+    border-color: var(--border-color) !important;
+}
+
+.offcanvas-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.offcanvas-body::-webkit-scrollbar-thumb {
+    background: #1b1b22;
+}
+
+.hover-danger:hover {
+    color: #dc3545 !important;
+    transform: scale(1.08);
+}
+
+.cart-qty-btn {
+    transition: var(--transition);
+}
+
+.badge-pulse {
+    animation: pulse 0.35s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Detail Modal customizations */
+.modal-content {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-color) !important;
+}
+
+.modal-img-container {
+    border-right: 1px solid var(--border-color);
+}
+
+@media (max-width: 768px) {
+    .modal-img-container {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
+
+.quantity-input-group {
+    border-color: var(--border-color) !important;
+}
+
+/* Active links custom highlights */
+.hover-gold {
+    transition: var(--transition);
+}
+
+.hover-gold:hover {
+    color: var(--gold) !important;
+}
+
+/* Small adjustments for responsiveness */
+@media (max-width: 991.98px) {
+    .hero-carousel-section {
+        height: 60vh;
+    }
+    
+    .hero-carousel-section h1 {
+        font-size: 2.2rem !important;
+    }
+}
+
+/* Explicit high-contrast rules for Footer and Cart Order Details */
+.footer p, 
+.footer li, 
+.footer a,
+.footer span,
+.footer .text-muted {
+    color: #d1d1d6 !important;
+}
+
+.footer a:hover {
+    color: var(--gold) !important;
+}
+
+/* Cart Offcanvas Order Details & Pricing contrast */
+#cartOffcanvas .text-muted,
+#cartPricingPanel .text-muted,
+#cartPricingPanel span:not(#cartTotal):not(.text-gold),
+.offcanvas-body p,
+.offcanvas-body span:not(.text-gold):not(.text-success):not(.text-danger) {
+    color: #d8d8de !important;
+}
+
+.cart-item-details h4 {
+    color: #ffffff !important;
+}
+

@@ -1,0 +1,2762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA LUXE | Modern E-Commerce Platform</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- React & Babel CDNs -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        :root {
+            --bg-page: #ffffff;
+            --bg-surface: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --accent-gold: #d97706;
+            --accent-gold-hover: #b45309;
+            --accent-cyan: #0284c7;
+            --accent-indigo: #4f46e5;
+            --accent-purple: #7c3aed;
+            --accent-emerald: #059669;
+            --accent-rose: #e11d48;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border-subtle: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --border-focus: rgba(79, 70, 229, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --glass-card: #ffffff;
+            --shadow-subtle: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            --shadow-elevated: 0 12px 30px -4px rgba(0, 0, 0, 0.08);
+            --shadow-glow: 0 10px 25px -4px rgba(79, 70, 229, 0.12);
+            --transition-smooth: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-page) !important;
+            color: var(--text-primary) !important;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        .font-outfit { font-family: 'Outfit', sans-serif; }
+        .tracking-wide { letter-spacing: 1.5px; }
+        .tracking-wider { letter-spacing: 2px; }
+        .cursor-pointer { cursor: pointer; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Glassmorphism & Backgrounds */
+        .glass-nav {
+            background-color: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .glass-card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .bg-card { background-color: var(--bg-card); }
+        .bg-surface { background-color: var(--bg-surface); }
+
+        /* Gradients & Accents */
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-indigo {
+            background: linear-gradient(135deg, #4f46e5 0%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+        }
+
+        .btn-luxe-primary {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            color: #ffffff !important;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-luxe-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35);
+            background: linear-gradient(135deg, #4338ca 0%, #3730a3 100%);
+        }
+
+        .btn-luxe-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff !important;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+        }
+
+        .btn-luxe-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-luxe-outline {
+            background: #ffffff;
+            color: var(--text-primary) !important;
+            border: 1px solid var(--border-subtle);
+            padding: 9px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-luxe-outline:hover {
+            background: #f8fafc;
+            border-color: var(--border-hover);
+            color: #0f172a !important;
+        }
+
+        /* Product Card */
+        .product-card {
+            background-color: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .product-img-wrapper {
+            position: relative;
+            padding-top: 75%;
+            overflow: hidden;
+            background-color: #f8fafc;
+        }
+
+        .product-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.06);
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            transition: var(--transition-smooth);
+            color: #64748b;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .wishlist-btn:hover {
+            background: #ffe4e6;
+            border-color: #f43f5e;
+            color: #e11d48;
+            transform: scale(1.1);
+        }
+
+        .wishlist-btn.active {
+            background: #e11d48;
+            border-color: #e11d48;
+            color: #ffffff;
+        }
+
+        .badge-pill-gold {
+            background: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fde68a;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge-pill-cyan {
+            background: #e0f2fe;
+            color: #0369a1;
+            border: 1px solid #bae6fd;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .badge-pill-emerald {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Order Stepper */
+        .stepper-track {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0 20px;
+        }
+
+        .stepper-line {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            height: 4px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+
+        .stepper-progress {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #0284c7);
+            z-index: 2;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .stepper-node {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 75px;
+        }
+
+        .stepper-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: #64748b;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+        }
+
+        .stepper-node.completed .stepper-circle {
+            background: #4f46e5;
+            border-color: #4f46e5;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(79, 70, 229, 0.4);
+        }
+
+        .stepper-node.active .stepper-circle {
+            background: #0284c7;
+            border-color: #0284c7;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+            animation: pulse-node 2s infinite;
+        }
+
+        @keyframes pulse-node {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .toast-card {
+            pointer-events: auto;
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            color: #0f172a;
+            border-radius: 12px;
+            padding: 14px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 420px;
+            animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Modal Overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 1050;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal-content-luxe {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: zoomIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            color: #0f172a;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .category-pill {
+            padding: 8px 18px;
+            border-radius: 30px;
+            background: #f1f5f9;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+
+        .category-pill:hover, .category-pill.active {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            border-color: #4f46e5;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+
+        /* Form Inputs */
+        .form-control-luxe, .form-select-luxe {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 10px 16px;
+            transition: var(--transition-smooth);
+        }
+
+        .form-control-luxe:focus, .form-select-luxe:focus {
+            background: #ffffff;
+            border-color: var(--accent-indigo);
+            color: #0f172a;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            outline: none;
+        }
+
+        .quantity-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-weight: 600;
+        }
+
+        .quantity-btn:hover {
+            background: #e2e8f0;
+            border-color: #94a3b8;
+        }
+
+        .hover-bg:hover {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+
+        const API_BASE = window.location.origin;
+
+        const useToasts = () => {
+            const [toasts, setToasts] = useState([]);
+            const addToast = (message, type = 'info', icon = 'info-circle') => {
+                const id = Date.now() + Math.random();
+                setToasts(prev => [...prev, { id, message, type, icon }]);
+                setTimeout(() => {
+                    setToasts(prev => prev.filter(t => t.id !== id));
+                }, 4000);
+            };
+            return { toasts, addToast };
+        };
+
+        const formatINR = (val) => {
+            if (val === undefined || val === null || isNaN(val)) return '₹0';
+            const num = Number(val);
+            return '₹' + num.toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        };
+
+        function App() {
+            const [products, setProducts] = useState([]);
+            const [loadingProducts, setLoadingProducts] = useState(true);
+            const [selectedCategory, setSelectedCategory] = useState('All');
+            const [searchQuery, setSearchQuery] = useState('');
+            const [sortBy, setSortBy] = useState('featured');
+            const [maxPrice, setMaxPrice] = useState(200000);
+            const [inStockOnly, setInStockOnly] = useState(false);
+
+            // Auth State
+            const [currentUser, setCurrentUser] = useState(() => {
+                const saved = localStorage.getItem('aura_user');
+                return saved ? JSON.parse(saved) : null;
+            });
+            const [token, setToken] = useState(() => localStorage.getItem('aura_token') || '');
+
+            // Cart & Wishlist
+            const [cart, setCart] = useState(() => {
+                const local = localStorage.getItem('aura_guest_cart');
+                return local ? JSON.parse(local) : [];
+            });
+            const [wishlistIds, setWishlistIds] = useState(() => {
+                const local = localStorage.getItem('aura_guest_wishlist');
+                return local ? JSON.parse(local) : [];
+            });
+            const [wishlistProducts, setWishlistProducts] = useState([]);
+
+            // Orders & Tracking
+            const [myOrders, setMyOrders] = useState([]);
+            const [trackingData, setTrackingData] = useState(null);
+            const [orderDetailData, setOrderDetailData] = useState(null);
+            const [allAdminOrders, setAllAdminOrders] = useState([]);
+
+            // Modals
+            const [activeModal, setActiveModal] = useState(null);
+            const [selectedProduct, setSelectedProduct] = useState(null);
+            const [selectedProductImage, setSelectedProductImage] = useState('');
+            const [lastPlacedOrder, setLastPlacedOrder] = useState(null);
+
+            // Promo Code State
+            const [promoCodeInput, setPromoCodeInput] = useState('');
+            const [appliedPromo, setAppliedPromo] = useState(null);
+            const [promoLoading, setPromoLoading] = useState(false);
+
+            const { toasts, addToast } = useToasts();
+
+            const categories = ['All', 'Electronics', 'Audio', 'Fashion', 'Home & Living', 'Accessories'];
+
+            const fetchProducts = async () => {
+                try {
+                    setLoadingProducts(true);
+                    let url = `${API_BASE}/api/products?`;
+                    if (selectedCategory !== 'All') url += `category=${encodeURIComponent(selectedCategory)}&`;
+                    if (searchQuery) url += `search=${encodeURIComponent(searchQuery)}&`;
+                    if (sortBy === 'price-low') url += `sortBy=price-low&`;
+                    else if (sortBy === 'price-high') url += `sortBy=price-high&`;
+                    else if (sortBy === 'rating') url += `sortBy=rating&`;
+                    else if (sortBy === 'newest') url += `sortBy=newest&`;
+                    if (inStockOnly) url += `inStock=true&`;
+                    url += `maxPrice=${maxPrice}`;
+
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    if (data.success) {
+                        setProducts(data.products || []);
+                    }
+                } catch (err) {
+                    console.error('Error fetching products:', err);
+                    addToast('Failed to load products from server.', 'danger', 'exclamation-circle');
+                } finally {
+                    setLoadingProducts(false);
+                }
+            };
+
+            const syncUserData = async (jwtToken) => {
+                if (!jwtToken) return;
+                try {
+                    const cartRes = await fetch(`${API_BASE}/api/cart`, {
+                        headers: { 'Authorization': `Bearer ${jwtToken}` }
+                    });
+                    const cartData = await cartRes.json();
+                    if (cartData.success) {
+                        setCart(cartData.items || []);
+                    }
+
+                    const wishRes = await fetch(`${API_BASE}/api/wishlist`, {
+                        headers: { 'Authorization': `Bearer ${jwtToken}` }
+                    });
+                    const wishData = await wishRes.json();
+                    if (wishData.success) {
+                        setWishlistIds(wishData.productIds || []);
+                        setWishlistProducts(wishData.products || []);
+                    }
+
+                    const orderRes = await fetch(`${API_BASE}/api/orders/my-orders`, {
+                        headers: { 'Authorization': `Bearer ${jwtToken}` }
+                    });
+                    const orderData = await orderRes.json();
+                    if (orderData.success) {
+                        setMyOrders(orderData.orders || []);
+                    }
+                } catch (err) {
+                    console.error('Sync user data error:', err);
+                }
+            };
+
+            useEffect(() => {
+                fetchProducts();
+            }, [selectedCategory, sortBy, inStockOnly, maxPrice]);
+
+            useEffect(() => {
+                if (token) {
+                    syncUserData(token);
+                }
+            }, [token]);
+
+            useEffect(() => {
+                if (!token) {
+                    localStorage.setItem('aura_guest_cart', JSON.stringify(cart));
+                    localStorage.setItem('aura_guest_wishlist', JSON.stringify(wishlistIds));
+                }
+            }, [cart, wishlistIds, token]);
+
+            const cartSubtotal = useMemo(() => {
+                return cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+            }, [cart]);
+
+            const shippingFee = cartSubtotal >= 1999 || cartSubtotal === 0 ? 0 : 149;
+            const estimatedTax = Number((cartSubtotal * 0.18).toFixed(2));
+            const discountAmount = useMemo(() => {
+                if (!appliedPromo) return 0;
+                if (appliedPromo.type === 'percent') {
+                    return Number(((cartSubtotal * appliedPromo.value) / 100).toFixed(2));
+                }
+                return appliedPromo.value;
+            }, [cartSubtotal, appliedPromo]);
+
+            const cartTotal = Math.max(0, Number((cartSubtotal + shippingFee + estimatedTax - discountAmount).toFixed(2)));
+
+            const addToCart = async (product, quantity = 1) => {
+                if (token) {
+                    try {
+                        const res = await fetch(`${API_BASE}/api/cart`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ productId: product.id, quantity })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            setCart(data.items);
+                            addToast(`"${product.title}" added to your cart!`, 'success', 'cart-plus');
+                        }
+                    } catch (e) {
+                        addToast('Failed to update cart on server.', 'danger', 'exclamation-circle');
+                    }
+                } else {
+                    setCart(prev => {
+                        const index = prev.findIndex(item => item.productId === product.id);
+                        if (index > -1) {
+                            const updated = [...prev];
+                            updated[index].quantity += quantity;
+                            return updated;
+                        } else {
+                            return [...prev, {
+                                productId: product.id,
+                                title: product.title,
+                                price: product.price,
+                                image: product.image,
+                                category: product.category,
+                                quantity
+                            }];
+                        }
+                    });
+                    addToast(`"${product.title}" added to cart!`, 'success', 'cart-plus');
+                }
+            };
+
+            const updateCartQuantity = async (productId, newQty) => {
+                if (token) {
+                    try {
+                        const res = await fetch(`${API_BASE}/api/cart/item`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ productId, quantity: newQty })
+                        });
+                        const data = await res.json();
+                        if (data.success) setCart(data.items);
+                    } catch (e) {}
+                } else {
+                    setCart(prev => {
+                        if (newQty <= 0) return prev.filter(i => i.productId !== productId);
+                        return prev.map(i => i.productId === productId ? { ...i, quantity: newQty } : i);
+                    });
+                }
+            };
+
+            const removeFromCart = async (productId) => {
+                if (token) {
+                    try {
+                        const res = await fetch(`${API_BASE}/api/cart/${productId}`, {
+                            method: 'DELETE',
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        });
+                        const data = await res.json();
+                        if (data.success) setCart(data.items);
+                    } catch (e) {}
+                } else {
+                    setCart(prev => prev.filter(i => i.productId !== productId));
+                }
+                addToast('Item removed from cart.', 'info', 'trash');
+            };
+
+            const toggleWishlist = async (product) => {
+                if (token) {
+                    try {
+                        const res = await fetch(`${API_BASE}/api/wishlist/toggle`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': `Bearer ${token}`
+                            },
+                            body: JSON.stringify({ productId: product.id })
+                        });
+                        const data = await res.json();
+                        if (data.success) {
+                            setWishlistIds(data.productIds);
+                            setWishlistProducts(data.products);
+                            addToast(data.message, data.action === 'added' ? 'rose' : 'info', 'heart');
+                        }
+                    } catch (e) {
+                        addToast('Failed to update wishlist.', 'danger', 'exclamation-circle');
+                    }
+                } else {
+                    const isWishlisted = wishlistIds.includes(product.id);
+                    if (isWishlisted) {
+                        setWishlistIds(prev => prev.filter(id => id !== product.id));
+                        setWishlistProducts(prev => prev.filter(p => p.id !== product.id));
+                        addToast(`Removed "${product.title}" from wishlist.`, 'info', 'heart');
+                    } else {
+                        setWishlistIds(prev => [...prev, product.id]);
+                        setWishlistProducts(prev => [...prev, product]);
+                        addToast(`Added "${product.title}" to wishlist!`, 'rose', 'heart');
+                    }
+                }
+            };
+
+            const applyPromoCode = async () => {
+                if (!promoCodeInput.trim()) return;
+                setPromoLoading(true);
+                try {
+                    const res = await fetch(`${API_BASE}/api/coupons/validate`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ code: promoCodeInput.trim(), subtotal: cartSubtotal })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        setAppliedPromo({
+                            code: data.code,
+                            value: data.discount,
+                            desc: data.description
+                        });
+                        addToast(`Promo code ${data.code} applied! Saved ${formatINR(data.discount)}`, 'success', 'tag');
+                    } else {
+                        addToast(data.message, 'warning', 'exclamation-triangle');
+                    }
+                } catch (e) {
+                    addToast('Error validating promo code.', 'danger', 'times-circle');
+                } finally {
+                    setPromoLoading(false);
+                }
+            };
+
+            const handleSignOut = () => {
+                localStorage.removeItem('aura_token');
+                localStorage.removeItem('aura_user');
+                setToken('');
+                setCurrentUser(null);
+                setCart([]);
+                setWishlistIds([]);
+                setWishlistProducts([]);
+                setMyOrders([]);
+                setActiveModal(null);
+                addToast('Signed out successfully.', 'info', 'sign-out-alt');
+            };
+
+            const openOrderTracker = async (orderId) => {
+                try {
+                    const res = await fetch(`${API_BASE}/api/orders/track/${orderId}`);
+                    const data = await res.json();
+                    if (data.success) {
+                        setTrackingData(data);
+                        setActiveModal('track');
+                    } else {
+                        addToast(data.message, 'warning', 'search');
+                    }
+                } catch (e) {
+                    addToast('Failed to retrieve order tracking info.', 'danger', 'exclamation-circle');
+                }
+            };
+
+            const openOrderDetails = async (orderId) => {
+                try {
+                    const res = await fetch(`${API_BASE}/api/orders/${orderId}`);
+                    const data = await res.json();
+                    if (data.success) {
+                        setOrderDetailData(data.order);
+                        setActiveModal('order_detail');
+                    } else {
+                        addToast(data.message, 'warning', 'file-invoice');
+                    }
+                } catch (e) {
+                    addToast('Failed to fetch order details.', 'danger', 'exclamation-circle');
+                }
+            };
+
+            const openAdminOrders = async () => {
+                if (!token) {
+                    setActiveModal('auth');
+                    return;
+                }
+                try {
+                    const res = await fetch(`${API_BASE}/api/admin/orders`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        setAllAdminOrders(data.orders || []);
+                        setActiveModal('admin_orders');
+                    } else {
+                        addToast(data.message, 'danger', 'shield-alt');
+                    }
+                } catch (e) {
+                    addToast('Failed to load admin orders.', 'danger', 'exclamation-circle');
+                }
+            };
+
+            const updateOrderStatusAsAdmin = async (orderId, newStatus) => {
+                try {
+                    const res = await fetch(`${API_BASE}/api/admin/orders/${orderId}/status`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ status: newStatus })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        setAllAdminOrders(prev => prev.map(o => o.orderId === orderId ? data.order : o));
+                        if (myOrders.some(o => o.orderId === orderId)) {
+                            setMyOrders(prev => prev.map(o => o.orderId === orderId ? data.order : o));
+                        }
+                        if (trackingData && trackingData.orderId === orderId) {
+                            setTrackingData(data.order);
+                        }
+                        addToast(`Order ${orderId} updated to "${newStatus}"!`, 'success', 'check-circle');
+                    }
+                } catch (e) {
+                    addToast('Failed to update order status.', 'danger', 'exclamation-triangle');
+                }
+            };
+
+            const openProductDetail = (product) => {
+                setSelectedProduct(product);
+                setSelectedProductImage(product.image);
+                setActiveModal('product_detail');
+            };
+
+            return (
+                <div className="min-vh-100 d-flex flex-column bg-white">
+                    {/* Toast Notification Container */}
+                    <div className="toast-container">
+                        {toasts.map(t => (
+                            <div key={t.id} className="toast-card" style={{
+                                borderLeft: t.type === 'rose' ? '4px solid #e11d48' :
+                                            t.type === 'success' ? '4px solid #059669' :
+                                            t.type === 'warning' ? '4px solid #d97706' :
+                                            t.type === 'danger' ? '4px solid #ef4444' : '4px solid #4f46e5'
+                            }}>
+                                <i className={`fa-solid fa-${t.icon} fa-lg ${
+                                    t.type === 'rose' ? 'text-danger' :
+                                    t.type === 'success' ? 'text-success' :
+                                    t.type === 'warning' ? 'text-warning' :
+                                    t.type === 'danger' ? 'text-danger' : 'text-primary'
+                                }`}></i>
+                                <span className="small font-outfit fw-medium">{t.message}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Top Announcement Bar */}
+                    <div className="py-2 text-center small" style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569' }}>
+                        <span className="badge-pill-gold me-2">SPRING 2026</span>
+                        <span>Complimentary Worldwide Express Delivery across India on orders over ₹1,999. Use code <strong className="text-dark">SAVE10</strong> for 10% off.</span>
+                    </div>
+
+                    {/* Navigation Bar */}
+                    <nav className="navbar navbar-expand-lg glass-nav sticky-top py-3">
+                        <div className="container-fluid px-lg-5">
+                            {/* Brand Logo */}
+                            <a className="navbar-brand d-flex align-items-center gap-2 cursor-pointer" onClick={() => { setSelectedCategory('All'); setSearchQuery(''); }}>
+                                <div style={{
+                                    width: '38px',
+                                    height: '38px',
+                                    borderRadius: '10px',
+                                    background: 'linear-gradient(135deg, #4f46e5, #0284c7)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    boxShadow: '0 4px 15px rgba(79, 70, 229, 0.25)'
+                                }}>
+                                    <i className="fa-solid fa-gem text-white fs-6"></i>
+                                </div>
+                                <div>
+                                    <span className="font-playfair fs-4 fw-bold tracking-wide text-dark">AURA</span>
+                                    <span className="font-outfit fs-6 ms-1 text-gradient-gold fw-semibold tracking-wider">LUXE</span>
+                                </div>
+                            </a>
+
+                            {/* Search Bar (Center) */}
+                            <div className="d-none d-md-flex align-items-center position-relative flex-grow-1 mx-lg-5 mx-3" style={{ maxWidth: '500px' }}>
+                                <i className="fa-solid fa-magnifying-glass position-absolute text-muted ms-3"></i>
+                                <input
+                                    type="text"
+                                    className="form-control-luxe w-100 ps-5 pe-5 font-outfit"
+                                    placeholder="Search 4K monitors, cashmere coats, espresso machines..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter') fetchProducts(); }}
+                                />
+                                {searchQuery && (
+                                    <i className="fa-solid fa-xmark position-absolute end-0 me-3 text-muted cursor-pointer" onClick={() => { setSearchQuery(''); fetchProducts(); }}></i>
+                                )}
+                            </div>
+
+                            {/* Actions Right */}
+                            <div className="d-flex align-items-center gap-2 gap-md-3">
+                                {/* Track Order Button */}
+                                <button
+                                    className="btn btn-luxe-outline btn-sm d-none d-sm-flex align-items-center gap-2"
+                                    onClick={() => setActiveModal('track')}
+                                    title="Track Any Order"
+                                >
+                                    <i className="fa-solid fa-truck-fast text-gradient-indigo"></i>
+                                    <span className="d-none d-lg-inline">Track Order</span>
+                                </button>
+
+                                {/* Wishlist Button */}
+                                <button
+                                    className="btn btn-luxe-outline position-relative px-3"
+                                    onClick={() => setActiveModal('wishlist')}
+                                    title="My Wishlist"
+                                >
+                                    <i className="fa-regular fa-heart"></i>
+                                    {wishlistIds.length > 0 && (
+                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style={{ fontSize: '0.65rem' }}>
+                                            {wishlistIds.length}
+                                        </span>
+                                    )}
+                                </button>
+
+                                {/* Cart Button */}
+                                <button
+                                    className="btn btn-luxe-outline position-relative px-3"
+                                    onClick={() => setActiveModal('cart')}
+                                    title="Shopping Cart"
+                                >
+                                    <i className="fa-solid fa-bag-shopping"></i>
+                                    {cart.length > 0 && (
+                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style={{ fontSize: '0.65rem' }}>
+                                            {cart.reduce((s, i) => s + i.quantity, 0)}
+                                        </span>
+                                    )}
+                                    <span className="ms-2 fw-semibold d-none d-xl-inline text-dark">{formatINR(cartSubtotal)}</span>
+                                </button>
+
+                                {/* User Profile / Auth */}
+                                {currentUser ? (
+                                    <div className="dropdown position-relative">
+                                        <button
+                                            className="btn btn-luxe-outline d-flex align-items-center gap-2"
+                                            type="button"
+                                            onClick={() => setActiveModal(activeModal === 'user_menu' ? null : 'user_menu')}
+                                        >
+                                            <div style={{
+                                                width: '28px',
+                                                height: '28px',
+                                                borderRadius: '50%',
+                                                background: '#e0e7ff',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontWeight: 'bold',
+                                                fontSize: '0.8rem',
+                                                color: '#4f46e5'
+                                            }}>
+                                                {currentUser.name ? currentUser.name.charAt(0).toUpperCase() : 'U'}
+                                            </div>
+                                            <span className="small d-none d-md-inline fw-semibold text-dark">{currentUser.name.split(' ')[0]}</span>
+                                            {currentUser.role === 'admin' && (
+                                                <span className="badge bg-warning text-dark" style={{ fontSize: '0.6rem' }}>ADMIN</span>
+                                            )}
+                                        </button>
+
+                                        {activeModal === 'user_menu' && (
+                                            <div className="glass-card position-absolute end-0 mt-2 p-2 shadow-lg" style={{ minWidth: '220px', zIndex: 1100 }}>
+                                                <div className="px-3 py-2 border-bottom border-subtle mb-1">
+                                                    <div className="fw-semibold text-dark small">{currentUser.name}</div>
+                                                    <div className="text-muted" style={{ fontSize: '0.75rem' }}>{currentUser.email}</div>
+                                                </div>
+                                                <button className="dropdown-item text-dark rounded py-2 px-3 small d-flex align-items-center gap-2 hover-bg" onClick={() => setActiveModal('profile')}>
+                                                    <i className="fa-regular fa-user text-muted"></i> My Profile & Address
+                                                </button>
+                                                <button className="dropdown-item text-dark rounded py-2 px-3 small d-flex align-items-center gap-2 hover-bg" onClick={() => setActiveModal('orders')}>
+                                                    <i className="fa-solid fa-box-archive text-muted"></i> My Order History ({myOrders.length})
+                                                </button>
+                                                <button className="dropdown-item text-dark rounded py-2 px-3 small d-flex align-items-center gap-2 hover-bg" onClick={() => setActiveModal('wishlist')}>
+                                                    <i className="fa-regular fa-heart text-muted"></i> My Wishlist ({wishlistIds.length})
+                                                </button>
+                                                {currentUser.role === 'admin' && (
+                                                    <button className="dropdown-item text-warning rounded py-2 px-3 small d-flex align-items-center gap-2 hover-bg" onClick={openAdminOrders}>
+                                                        <i className="fa-solid fa-sliders"></i> Admin Order Manager
+                                                    </button>
+                                                )}
+                                                <div className="border-top border-subtle my-1"></div>
+                                                <button className="dropdown-item text-danger rounded py-2 px-3 small d-flex align-items-center gap-2 hover-bg" onClick={handleSignOut}>
+                                                    <i className="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <button
+                                        className="btn btn-luxe-primary d-flex align-items-center gap-2"
+                                        onClick={() => setActiveModal('auth')}
+                                    >
+                                        <i className="fa-regular fa-user"></i>
+                                        <span className="d-none d-sm-inline">Sign In</span>
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <header className="position-relative py-5 overflow-hidden" style={{
+                        background: 'radial-gradient(circle at 75% 20%, rgba(79, 70, 229, 0.08) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(2, 132, 199, 0.06) 0%, transparent 50%)'
+                    }}>
+                        <div className="container px-lg-5">
+                            <div className="row align-items-center gy-4">
+                                <div className="col-lg-7">
+                                    <div className="d-inline-flex align-items-center gap-2 badge-pill-gold mb-3">
+                                        <i className="fa-solid fa-crown"></i>
+                                        <span>CURATED LUXURY & PRO CONSUMER TECH</span>
+                                    </div>
+                                    <h1 className="font-playfair display-4 fw-bold text-dark mb-3">
+                                        Elevate Your Lifestyle with <span className="text-gradient-indigo">Architectural Precision</span>
+                                    </h1>
+                                    <p className="lead text-secondary font-outfit mb-4" style={{ maxWidth: '600px' }}>
+                                        Experience uncompromising craftsmanship across aerospace titanium devices, studio acoustic audio, and bespoke artisan apparel.
+                                    </p>
+                                    <div className="d-flex flex-wrap gap-3">
+                                        <a href="#catalog" className="btn btn-luxe-primary px-4 py-3">
+                                            <i className="fa-solid fa-bag-shopping me-2"></i> Explore Catalog
+                                        </a>
+                                        <button className="btn btn-luxe-outline px-4 py-3" onClick={() => { setSelectedCategory('Electronics'); }}>
+                                            <i className="fa-solid fa-bolt text-warning me-2"></i> Tech Essentials
+                                        </button>
+                                    </div>
+                                    {/* Guarantees Strip */}
+                                    <div className="row g-3 mt-4 pt-3 border-top border-subtle">
+                                        <div className="col-sm-4 d-flex align-items-center gap-2 text-secondary small">
+                                            <i className="fa-solid fa-shield-check text-primary"></i> 2-Year Full Warranty
+                                        </div>
+                                        <div className="col-sm-4 d-flex align-items-center gap-2 text-secondary small">
+                                            <i className="fa-solid fa-rotate-left text-success"></i> 30-Day Hassle-Free Returns
+                                        </div>
+                                        <div className="col-sm-4 d-flex align-items-center gap-2 text-secondary small">
+                                            <i className="fa-solid fa-lock text-warning"></i> 256-Bit Secure Checkout
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-lg-5 d-none d-lg-block text-center position-relative">
+                                    <div className="glass-card p-3 shadow-lg position-relative mx-auto bg-white" style={{ maxWidth: '420px' }}>
+                                        <img
+                                            src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=700&q=80"
+                                            alt="Featured Headphones"
+                                            className="rounded-4 img-fluid"
+                                        />
+                                        <div className="p-3 text-start">
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
+                                                <span className="badge-pill-cyan">FEATURED ITEM</span>
+                                                <span className="text-warning small"><i className="fa-solid fa-star"></i> 4.9 (98 reviews)</span>
+                                            </div>
+                                            <h5 className="text-dark fw-bold mt-2">Sonic Studio ANC Over-Ear</h5>
+                                            <div className="d-flex justify-content-between align-items-center mt-3">
+                                                <div>
+                                                    <span className="text-muted text-decoration-line-through me-2">₹31,999</span>
+                                                    <span className="fs-5 fw-bold text-dark">₹24,999</span>
+                                                </div>
+                                                <button
+                                                    className="btn btn-luxe-primary btn-sm"
+                                                    onClick={() => addToCart(products.find(p => p.id === 2) || { id: 2, title: 'Sonic Studio ANC', price: 24999, image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e' })}
+                                                >
+                                                    <i className="fa-solid fa-cart-plus me-1"></i> Quick Add
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Catalog Section */}
+                    <main id="catalog" className="container px-lg-5 py-5 flex-grow-1">
+                        {/* Categories Bar & Search Filter */}
+                        <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4 pb-3 border-bottom border-subtle">
+                            {/* Category Pills */}
+                            <div className="d-flex flex-wrap gap-2">
+                                {categories.map(cat => (
+                                    <button
+                                        key={cat}
+                                        className={`category-pill ${selectedCategory === cat ? 'active' : ''}`}
+                                        onClick={() => setSelectedCategory(cat)}
+                                    >
+                                        {cat === 'All' && <i className="fa-solid fa-border-all me-1"></i>}
+                                        {cat === 'Electronics' && <i className="fa-solid fa-laptop me-1"></i>}
+                                        {cat === 'Audio' && <i className="fa-solid fa-headphones me-1"></i>}
+                                        {cat === 'Fashion' && <i className="fa-solid fa-shirt me-1"></i>}
+                                        {cat === 'Home & Living' && <i className="fa-solid fa-house me-1"></i>}
+                                        {cat === 'Accessories' && <i className="fa-solid fa-glasses me-1"></i>}
+                                        {cat}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Sorting & Filter Dropdowns */}
+                            <div className="d-flex align-items-center gap-3 flex-wrap">
+                                <div className="d-flex align-items-center gap-2">
+                                    <label className="small text-secondary text-nowrap">Sort by:</label>
+                                    <select
+                                        className="form-select-luxe small"
+                                        value={sortBy}
+                                        onChange={(e) => setSortBy(e.target.value)}
+                                        style={{ minWidth: '160px' }}
+                                    >
+                                        <option value="featured">Featured Collection</option>
+                                        <option value="price-low">Price: Low to High</option>
+                                        <option value="price-high">Price: High to Low</option>
+                                        <option value="rating">Highest Rated</option>
+                                        <option value="newest">Newest Arrivals</option>
+                                    </select>
+                                </div>
+
+                                <div className="d-flex align-items-center gap-2 bg-white px-3 py-1 rounded-3 border border-subtle">
+                                    <label className="small text-secondary text-nowrap mb-0">Max:</label>
+                                    <input
+                                        type="range"
+                                        className="form-range"
+                                        min="5000"
+                                        max="200000"
+                                        step="5000"
+                                        value={maxPrice}
+                                        onChange={(e) => setMaxPrice(Number(e.target.value))}
+                                        style={{ width: '100px' }}
+                                    />
+                                    <span className="small fw-bold text-dark text-nowrap">{formatINR(maxPrice)}</span>
+                                </div>
+
+                                <div className="form-check form-switch d-flex align-items-center gap-2 m-0">
+                                    <input
+                                        className="form-check-input cursor-pointer"
+                                        type="checkbox"
+                                        id="inStockCheck"
+                                        checked={inStockOnly}
+                                        onChange={(e) => setInStockOnly(e.target.checked)}
+                                    />
+                                    <label className="form-check-label small text-secondary cursor-pointer" htmlFor="inStockCheck">
+                                        In Stock Only
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Showing count indicator */}
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <span className="small text-secondary font-outfit">
+                                Showing <strong className="text-dark">{products.length}</strong> premium products {selectedCategory !== 'All' ? `in ${selectedCategory}` : ''}
+                            </span>
+                            {searchQuery && (
+                                <button className="btn btn-sm btn-link text-muted p-0 text-decoration-none" onClick={() => setSearchQuery('')}>
+                                    Clear search "{searchQuery}" <i className="fa-solid fa-xmark ms-1"></i>
+                                </button>
+                            )}
+                        </div>
+
+                        {/* Product Grid */}
+                        {loadingProducts ? (
+                            <div className="py-5 text-center">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                                <p className="text-secondary mt-3 font-outfit">Curating luxury catalog from database...</p>
+                            </div>
+                        ) : products.length === 0 ? (
+                            <div className="text-center py-5 glass-card my-4 p-5 bg-surface">
+                                <i className="fa-solid fa-box-open fa-3x text-muted mb-3"></i>
+                                <h4 className="text-dark">No products found</h4>
+                                <p className="text-secondary small">No items matched your current filter criteria. Try resetting your search or categories.</p>
+                                <button className="btn btn-luxe-primary mt-2" onClick={() => { setSelectedCategory('All'); setSearchQuery(''); setInStockOnly(false); setMaxPrice(200000); }}>
+                                    Reset Filters
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                                {products.map(product => {
+                                    const isWishlisted = wishlistIds.includes(product.id);
+                                    return (
+                                        <div key={product.id} className="col">
+                                            <div className="product-card h-100">
+                                                {/* Image and Badges */}
+                                                <div className="product-img-wrapper cursor-pointer" onClick={() => openProductDetail(product)}>
+                                                    <img
+                                                        src={product.image}
+                                                        alt={product.title}
+                                                        className="product-img"
+                                                        loading="lazy"
+                                                    />
+                                                    {product.badge && (
+                                                        <div className="position-absolute top-0 start-0 m-3">
+                                                            <span className={product.badge === 'Best Seller' ? 'badge-pill-gold' : 'badge-pill-cyan'}>
+                                                                {product.badge}
+                                                            </span>
+                                                        </div>
+                                                    )}
+                                                    {/* Wishlist Button */}
+                                                    <div
+                                                        className={`wishlist-btn ${isWishlisted ? 'active' : ''}`}
+                                                        onClick={(e) => { e.stopPropagation(); toggleWishlist(product); }}
+                                                        title={isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                                                    >
+                                                        <i className={`fa-${isWishlisted ? 'solid' : 'regular'} fa-heart`}></i>
+                                                    </div>
+                                                </div>
+
+                                                {/* Body */}
+                                                <div className="p-3 d-flex flex-column flex-grow-1 bg-white">
+                                                    <div className="d-flex justify-content-between align-items-center mb-1">
+                                                        <span className="text-muted text-uppercase tracking-wide" style={{ fontSize: '0.7rem' }}>
+                                                            {product.brand}
+                                                        </span>
+                                                        <span className="text-warning small d-flex align-items-center gap-1">
+                                                            <i className="fa-solid fa-star fa-xs"></i>
+                                                            <strong className="text-dark">{product.rating}</strong>
+                                                            <span className="text-muted" style={{ fontSize: '0.75rem' }}>({product.reviewCount})</span>
+                                                        </span>
+                                                    </div>
+
+                                                    <h6 className="fw-semibold text-dark mb-2 cursor-pointer text-truncate" title={product.title} onClick={() => openProductDetail(product)}>
+                                                        {product.title}
+                                                    </h6>
+
+                                                    <p className="text-secondary small text-truncate mb-3" style={{ fontSize: '0.8rem' }}>
+                                                        {product.description}
+                                                    </p>
+
+                                                    {/* Price & Action Row */}
+                                                    <div className="mt-auto d-flex justify-content-between align-items-center pt-2 border-top border-subtle">
+                                                        <div>
+                                                            <div className="fs-5 fw-bold text-dark">{formatINR(product.price)}</div>
+                                                            {product.originalPrice > product.price && (
+                                                                <span className="small text-muted text-decoration-line-through me-1">
+                                                                    {formatINR(product.originalPrice)}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <button
+                                                            className="btn btn-luxe-primary btn-sm px-3 d-flex align-items-center gap-1"
+                                                            onClick={() => addToCart(product)}
+                                                        >
+                                                            <i className="fa-solid fa-plus"></i> Cart
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="mt-auto py-5 bg-surface border-top border-subtle text-secondary font-outfit">
+                        <div className="container px-lg-5">
+                            <div className="row gy-4 mb-4">
+                                <div className="col-lg-4 col-md-6">
+                                    <div className="d-flex align-items-center gap-2 mb-3">
+                                        <div style={{
+                                            width: '32px',
+                                            height: '32px',
+                                            borderRadius: '8px',
+                                            background: 'linear-gradient(135deg, #4f46e5, #0284c7)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
+                                        }}>
+                                            <i className="fa-solid fa-gem text-white fs-6"></i>
+                                        </div>
+                                        <span className="font-playfair fs-4 fw-bold text-dark">AURA LUXE</span>
+                                    </div>
+                                    <p className="small text-muted">
+                                        The gold standard in full-stack e-commerce. Powered by Node.js, Express, React, and MongoDB database with isolated user carts, live tracking, and JWT security.
+                                    </p>
+                                    <div className="d-flex gap-3 fs-5 mt-3">
+                                        <a href="#" className="text-secondary"><i className="fa-brands fa-github"></i></a>
+                                        <a href="#" className="text-secondary"><i className="fa-brands fa-twitter"></i></a>
+                                        <a href="#" className="text-secondary"><i className="fa-brands fa-instagram"></i></a>
+                                        <a href="#" className="text-secondary"><i className="fa-brands fa-docker"></i></a>
+                                    </div>
+                                </div>
+                                <div className="col-lg-2 col-md-3 col-6">
+                                    <h6 className="text-dark fw-bold mb-3 small tracking-wide text-uppercase">Shop Categories</h6>
+                                    <ul className="list-unstyled small d-flex flex-column gap-2 text-muted">
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setSelectedCategory('Electronics')}>Electronics</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setSelectedCategory('Audio')}>High-End Audio</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setSelectedCategory('Fashion')}>Apparel & Watches</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setSelectedCategory('Home & Living')}>Home & Living</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setSelectedCategory('Accessories')}>Accessories</a></li>
+                                    </ul>
+                                </div>
+                                <div className="col-lg-2 col-md-3 col-6">
+                                    <h6 className="text-dark fw-bold mb-3 small tracking-wide text-uppercase">Orders & Support</h6>
+                                    <ul className="list-unstyled small d-flex flex-column gap-2 text-muted">
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setActiveModal('track')}>Track Your Order</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setActiveModal('orders')}>My Order History</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setActiveModal('wishlist')}>Saved Wishlist</a></li>
+                                        <li><a className="text-secondary text-decoration-none cursor-pointer" onClick={() => setActiveModal('cart')}>Shopping Cart</a></li>
+                                    </ul>
+                                </div>
+                                <div className="col-lg-4 col-md-12">
+                                    <h6 className="text-dark fw-bold mb-3 small tracking-wide text-uppercase">Exclusive Newsletter</h6>
+                                    <p className="small text-muted">Subscribe to receive early invites to private drops and private sales.</p>
+                                    <div className="d-flex gap-2">
+                                        <input type="email" className="form-control-luxe small flex-grow-1" placeholder="Enter your email..." />
+                                        <button className="btn btn-luxe-primary btn-sm px-3" onClick={() => addToast('Subscribed to VIP newsletter!', 'success', 'envelope')}>Join</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="border-top border-subtle pt-3 d-flex flex-wrap justify-content-between align-items-center small text-muted">
+                                <div>&copy; 2026 AURA LUXE Platform. All rights reserved.</div>
+                                <div className="d-flex gap-3">
+                                    <span>MongoDB Atlas Ready</span>
+                                    <span>Docker Compose Ready</span>
+                                    <span>JWT Authenticated</span>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+
+                    {/* ========================================================================= */}
+                    {/* MODALS */}
+                    {/* ========================================================================= */}
+
+                    {/* 1. AUTH MODAL */}
+                    {activeModal === 'auth' && (
+                        <AuthModal
+                            onClose={() => setActiveModal(null)}
+                            onSuccess={(user, jwtToken) => {
+                                setCurrentUser(user);
+                                setToken(jwtToken);
+                                localStorage.setItem('aura_user', JSON.stringify(user));
+                                localStorage.setItem('aura_token', jwtToken);
+                                setActiveModal(null);
+                                addToast(`Welcome back, ${user.name}!`, 'success', 'user-check');
+                            }}
+                        />
+                    )}
+
+                    {/* 2. CART DRAWER / MODAL */}
+                    {activeModal === 'cart' && (
+                        <CartModal
+                            cart={cart}
+                            cartSubtotal={cartSubtotal}
+                            shippingFee={shippingFee}
+                            estimatedTax={estimatedTax}
+                            appliedPromo={appliedPromo}
+                            discountAmount={discountAmount}
+                            cartTotal={cartTotal}
+                            promoCodeInput={promoCodeInput}
+                            setPromoCodeInput={setPromoCodeInput}
+                            applyPromoCode={applyPromoCode}
+                            promoLoading={promoLoading}
+                            onUpdateQty={updateCartQuantity}
+                            onRemove={removeFromCart}
+                            onCheckout={() => {
+                                if (cart.length === 0) return;
+                                setActiveModal('checkout');
+                            }}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 3. WISHLIST MODAL */}
+                    {activeModal === 'wishlist' && (
+                        <WishlistModal
+                            wishlistProducts={wishlistProducts}
+                            onAddToCart={(product) => addToCart(product)}
+                            onRemove={(product) => toggleWishlist(product)}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 4. CHECKOUT MODAL */}
+                    {activeModal === 'checkout' && (
+                        <CheckoutModal
+                            currentUser={currentUser}
+                            cart={cart}
+                            cartSubtotal={cartSubtotal}
+                            shippingFee={shippingFee}
+                            tax={estimatedTax}
+                            discount={discountAmount}
+                            promoCode={appliedPromo ? appliedPromo.code : ''}
+                            totalAmount={cartTotal}
+                            token={token}
+                            onOrderPlaced={(order) => {
+                                setLastPlacedOrder(order);
+                                setCart([]);
+                                setMyOrders(prev => [order, ...prev]);
+                                setActiveModal('order_success');
+                            }}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 5. ORDER SUCCESS CONFIRMATION MODAL */}
+                    {activeModal === 'order_success' && lastPlacedOrder && (
+                        <OrderSuccessModal
+                            order={lastPlacedOrder}
+                            onTrackOrder={() => {
+                                setTrackingData(lastPlacedOrder);
+                                setActiveModal('track');
+                            }}
+                            onViewDetails={() => {
+                                setOrderDetailData(lastPlacedOrder);
+                                setActiveModal('order_detail');
+                            }}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 6. MY ORDERS LIST MODAL */}
+                    {activeModal === 'orders' && (
+                        <MyOrdersModal
+                            orders={myOrders}
+                            onTrack={openOrderTracker}
+                            onViewDetails={openOrderDetails}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 7. LIVE ORDER TRACKING MODAL */}
+                    {activeModal === 'track' && (
+                        <OrderTrackingModal
+                            initialData={trackingData}
+                            onSearch={openOrderTracker}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 8. ORDER DETAILS / INVOICE MODAL */}
+                    {activeModal === 'order_detail' && orderDetailData && (
+                        <OrderDetailModal
+                            order={orderDetailData}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 9. PRODUCT QUICK VIEW / DETAILS MODAL */}
+                    {activeModal === 'product_detail' && selectedProduct && (
+                        <ProductDetailModal
+                            product={selectedProduct}
+                            activeImg={selectedProductImage}
+                            setActiveImg={setSelectedProductImage}
+                            isWishlisted={wishlistIds.includes(selectedProduct.id)}
+                            onToggleWishlist={() => toggleWishlist(selectedProduct)}
+                            onAddToCart={(qty) => addToCart(selectedProduct, qty)}
+                            token={token}
+                            onReviewAdded={(updatedProduct) => {
+                                setSelectedProduct(updatedProduct);
+                                setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+                                addToast('Review submitted successfully!', 'success', 'star');
+                            }}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 10. ADMIN ORDER MANAGER MODAL */}
+                    {activeModal === 'admin_orders' && (
+                        <AdminOrdersModal
+                            orders={allAdminOrders}
+                            onUpdateStatus={updateOrderStatusAsAdmin}
+                            onTrack={openOrderTracker}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+
+                    {/* 11. USER PROFILE & ADDRESS MODAL */}
+                    {activeModal === 'profile' && currentUser && (
+                        <UserProfileModal
+                            user={currentUser}
+                            token={token}
+                            onUserUpdated={(updated) => {
+                                setCurrentUser(updated);
+                                localStorage.setItem('aura_user', JSON.stringify(updated));
+                                addToast('Profile and address saved!', 'success', 'check-circle');
+                                setActiveModal(null);
+                            }}
+                            onClose={() => setActiveModal(null)}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        // --- 1. AUTH MODAL ---
+        function AuthModal({ onClose, onSuccess }) {
+            const [isRegister, setIsRegister] = useState(false);
+            const [name, setName] = useState('');
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [phone, setPhone] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setError('');
+                setLoading(true);
+                try {
+                    const endpoint = isRegister ? `${API_BASE}/api/auth/register` : `${API_BASE}/api/auth/login`;
+                    const payload = isRegister ? { name, email, password, phone } : { email, password };
+
+                    const res = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        onSuccess(data.user, data.token);
+                    } else {
+                        setError(data.message || 'Authentication failed.');
+                    }
+                } catch (err) {
+                    setError('Connection error. Please ensure the backend is running.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const fillDemo = (role) => {
+                if (role === 'admin') {
+                    setEmail('admin@example.com');
+                    setPassword('admin123');
+                    setIsRegister(false);
+                } else {
+                    setEmail('john@example.com');
+                    setPassword('password123');
+                    setIsRegister(false);
+                }
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '480px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-1">{isRegister ? 'Create Your Account' : 'Welcome Back'}</h4>
+                                <p className="text-secondary small mb-0">Experience personalized recommendations & tracking.</p>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        {/* Quick Demo Fill Buttons */}
+                        <div className="p-3 rounded-3 mb-4 bg-surface border border-subtle">
+                            <div className="small text-secondary mb-2 fw-semibold"><i className="fa-solid fa-key text-warning me-1"></i> Quick 1-Click Credentials:</div>
+                            <div className="d-flex gap-2">
+                                <button type="button" className="btn btn-sm btn-luxe-outline flex-grow-1" onClick={() => fillDemo('customer')}>
+                                    <i className="fa-regular fa-user me-1 text-primary"></i> Customer Demo
+                                </button>
+                                <button type="button" className="btn btn-sm btn-luxe-outline flex-grow-1" onClick={() => fillDemo('admin')}>
+                                    <i className="fa-solid fa-shield me-1 text-warning"></i> Admin Demo
+                                </button>
+                            </div>
+                        </div>
+
+                        {error && (
+                            <div className="alert alert-danger py-2 small d-flex align-items-center gap-2 mb-3">
+                                <i className="fa-solid fa-triangle-exclamation"></i> {error}
+                            </div>
+                        )}
+
+                        <form onSubmit={handleSubmit}>
+                            {isRegister && (
+                                <div className="mb-3">
+                                    <label className="form-label small text-secondary">Full Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control-luxe w-100"
+                                        placeholder="Alexandre Mercier"
+                                        required
+                                        value={name}
+                                        onChange={e => setName(e.target.value)}
+                                    />
+                                </div>
+                            )}
+
+                            <div className="mb-3">
+                                <label className="form-label small text-secondary">Email Address</label>
+                                <input
+                                    type="email"
+                                    className="form-control-luxe w-100"
+                                    placeholder="name@example.com"
+                                    required
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <label className="form-label small text-secondary">Password</label>
+                                <input
+                                    type="password"
+                                    className="form-control-luxe w-100"
+                                    placeholder="••••••••"
+                                    required
+                                    value={password}
+                                    onChange={e => setPassword(e.target.value)}
+                                />
+                            </div>
+
+                            {isRegister && (
+                                <div className="mb-3">
+                                    <label className="form-label small text-secondary">Phone Number (Optional)</label>
+                                    <input
+                                        type="tel"
+                                        className="form-control-luxe w-100"
+                                        placeholder="+1 (555) 000-0000"
+                                        value={phone}
+                                        onChange={e => setPhone(e.target.value)}
+                                    />
+                                </div>
+                            )}
+
+                            <button type="submit" className="btn btn-luxe-primary w-100 py-3 mt-3" disabled={loading}>
+                                {loading ? (
+                                    <span><i className="fa-solid fa-circle-notch fa-spin me-2"></i> Processing...</span>
+                                ) : (
+                                    <span>{isRegister ? 'Register Account' : 'Sign In'}</span>
+                                )}
+                            </button>
+                        </form>
+
+                        <div className="text-center mt-4 pt-3 border-top border-subtle small text-secondary">
+                            {isRegister ? (
+                                <span>Already have an account? <a className="text-primary text-decoration-none cursor-pointer fw-semibold" onClick={() => setIsRegister(false)}>Sign In</a></span>
+                            ) : (
+                                <span>New to Aura Luxe? <a className="text-primary text-decoration-none cursor-pointer fw-semibold" onClick={() => setIsRegister(true)}>Create an Account</a></span>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 2. CART MODAL ---
+        function CartModal({ cart, cartSubtotal, shippingFee, estimatedTax, appliedPromo, discountAmount, cartTotal, promoCodeInput, setPromoCodeInput, applyPromoCode, promoLoading, onUpdateQty, onRemove, onCheckout, onClose }) {
+            const freeShippingThreshold = 1999;
+            const diffForFree = Math.max(0, freeShippingThreshold - cartSubtotal);
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4" style={{ maxWidth: '650px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">Your Shopping Cart</h4>
+                                <span className="small text-secondary">{cart.reduce((s, i) => s + i.quantity, 0)} items in bag</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        {/* Free Shipping Progress Indicator */}
+                        <div className="p-3 rounded-3 mb-3 bg-surface border border-subtle">
+                            <div className="d-flex justify-content-between small mb-2">
+                                <span>{diffForFree === 0 ? <strong className="text-success"><i className="fa-solid fa-check-circle me-1"></i> You unlocked Free Express Shipping!</strong> : `Add ${formatINR(diffForFree)} more for Free Express Shipping`}</span>
+                                <span className="text-muted">{formatINR(cartSubtotal)} / ₹1,999</span>
+                            </div>
+                            <div className="progress" style={{ height: '6px', background: '#e2e8f0' }}>
+                                <div
+                                    className="progress-bar bg-gradient-primary"
+                                    style={{ width: `${Math.min(100, (cartSubtotal / freeShippingThreshold) * 100)}%` }}
+                                ></div>
+                            </div>
+                        </div>
+
+                        {/* Cart Items List */}
+                        {cart.length === 0 ? (
+                            <div className="text-center py-5">
+                                <i className="fa-solid fa-bag-shopping fa-3x text-muted mb-3"></i>
+                                <h5 className="text-dark">Your bag is empty</h5>
+                                <p className="text-secondary small">Explore our exclusive catalog and add luxury pieces.</p>
+                                <button className="btn btn-luxe-primary mt-2" onClick={onClose}>
+                                    Start Shopping
+                                </button>
+                            </div>
+                        ) : (
+                            <div>
+                                <div className="pe-1" style={{ maxHeight: '320px', overflowY: 'auto' }}>
+                                    {cart.map(item => (
+                                        <div key={item.productId} className="d-flex align-items-center gap-3 p-3 mb-2 rounded-3 bg-surface border border-subtle">
+                                            <img
+                                                src={item.image}
+                                                alt={item.title}
+                                                style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '10px' }}
+                                            />
+                                            <div className="flex-grow-1">
+                                                <h6 className="text-dark mb-1 small fw-semibold text-truncate" style={{ maxWidth: '240px' }}>{item.title}</h6>
+                                                <div className="text-primary small fw-bold">{formatINR(item.price)}</div>
+                                            </div>
+                                            {/* Quantity Modifier */}
+                                            <div className="d-flex align-items-center gap-2">
+                                                <button className="quantity-btn" onClick={() => onUpdateQty(item.productId, item.quantity - 1)}>-</button>
+                                                <span className="small fw-bold px-1 text-dark">{item.quantity}</span>
+                                                <button className="quantity-btn" onClick={() => onUpdateQty(item.productId, item.quantity + 1)}>+</button>
+                                            </div>
+                                            {/* Subtotal & Delete */}
+                                            <div className="text-end" style={{ minWidth: '70px' }}>
+                                                <div className="small fw-bold text-dark">{formatINR(item.price * item.quantity)}</div>
+                                                <button className="btn btn-sm btn-link text-danger p-0 mt-1" onClick={() => onRemove(item.productId)}>
+                                                    <i className="fa-solid fa-trash-can fa-xs"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Promo Code Box */}
+                                <div className="d-flex gap-2 my-3">
+                                    <input
+                                        type="text"
+                                        className="form-control-luxe small flex-grow-1 text-uppercase"
+                                        placeholder="Promo Code (e.g. SAVE10)"
+                                        value={promoCodeInput}
+                                        onChange={e => setPromoCodeInput(e.target.value)}
+                                    />
+                                    <button className="btn btn-luxe-outline btn-sm px-3" onClick={applyPromoCode} disabled={promoLoading}>
+                                        {promoLoading ? 'Checking...' : 'Apply Code'}
+                                    </button>
+                                </div>
+
+                                {appliedPromo && (
+                                    <div className="alert alert-success py-2 small d-flex justify-content-between align-items-center mb-3">
+                                        <span><i className="fa-solid fa-tag me-1"></i> Promo <strong>{appliedPromo.code}</strong> applied (-{formatINR(discountAmount)})</span>
+                                        <span className="text-secondary" style={{ fontSize: '0.75rem' }}>{appliedPromo.desc}</span>
+                                    </div>
+                                )}
+
+                                {/* Summary */}
+                                <div className="p-3 rounded-3 mb-3 bg-surface border border-subtle">
+                                    <div className="d-flex justify-content-between small text-secondary mb-2">
+                                        <span>Subtotal</span>
+                                        <span className="text-dark fw-medium">{formatINR(cartSubtotal)}</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between small text-secondary mb-2">
+                                        <span>Shipping (Express Courier)</span>
+                                        <span className={shippingFee === 0 ? 'text-success fw-bold' : 'text-dark fw-medium'}>
+                                            {shippingFee === 0 ? 'FREE' : formatINR(shippingFee)}
+                                        </span>
+                                    </div>
+                                    <div className="d-flex justify-content-between small text-secondary mb-2">
+                                        <span>Estimated GST (18%)</span>
+                                        <span className="text-dark fw-medium">{formatINR(estimatedTax)}</span>
+                                    </div>
+                                    {discountAmount > 0 && (
+                                        <div className="d-flex justify-content-between small text-success mb-2">
+                                            <span>Discount</span>
+                                            <span>-{formatINR(discountAmount)}</span>
+                                        </div>
+                                    )}
+                                    <div className="d-flex justify-content-between fw-bold text-dark pt-2 border-top border-subtle fs-5">
+                                        <span>Total</span>
+                                        <span className="text-primary">{formatINR(cartTotal)}</span>
+                                    </div>
+                                </div>
+
+                                <button className="btn btn-luxe-primary w-100 py-3 fw-bold" onClick={onCheckout}>
+                                    Proceed to Secure Checkout <i className="fa-solid fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 3. WISHLIST MODAL ---
+        function WishlistModal({ wishlistProducts, onAddToCart, onRemove, onClose }) {
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4" style={{ maxWidth: '650px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">Your Wishlist</h4>
+                                <span className="small text-secondary">{wishlistProducts.length} saved luxury pieces (Synced with your account)</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        {wishlistProducts.length === 0 ? (
+                            <div className="text-center py-5">
+                                <i className="fa-regular fa-heart fa-3x text-muted mb-3"></i>
+                                <h5 className="text-dark">Your wishlist is empty</h5>
+                                <p className="text-secondary small">Tap the heart icon on any product to save it here for later.</p>
+                                <button className="btn btn-luxe-primary mt-2" onClick={onClose}>
+                                    Explore Products
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="pe-1" style={{ maxHeight: '420px', overflowY: 'auto' }}>
+                                {wishlistProducts.map(p => (
+                                    <div key={p.id} className="d-flex align-items-center gap-3 p-3 mb-2 rounded-3 bg-surface border border-subtle">
+                                        <img src={p.image} alt={p.title} style={{ width: '65px', height: '65px', objectFit: 'cover', borderRadius: '10px' }} />
+                                        <div className="flex-grow-1">
+                                            <h6 className="text-dark mb-1 small fw-semibold text-truncate" style={{ maxWidth: '250px' }}>{p.title}</h6>
+                                            <div className="text-primary small fw-bold">{formatINR(p.price)}</div>
+                                            <span className="small text-muted" style={{ fontSize: '0.75rem' }}>{p.category}</span>
+                                        </div>
+                                        <div className="d-flex gap-2">
+                                            <button className="btn btn-luxe-primary btn-sm px-3" onClick={() => onAddToCart(p)}>
+                                                <i className="fa-solid fa-cart-plus me-1"></i> Add to Cart
+                                            </button>
+                                            <button className="btn btn-sm btn-outline-danger" onClick={() => onRemove(p)} title="Remove from Wishlist">
+                                                <i className="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 4. CHECKOUT MODAL ---
+        function CheckoutModal({ currentUser, cart, cartSubtotal, shippingFee, tax, discount, promoCode, totalAmount, token, onOrderPlaced, onClose }) {
+            const [customerName, setCustomerName] = useState(currentUser ? currentUser.name : '');
+            const [customerEmail, setCustomerEmail] = useState(currentUser ? currentUser.email : '');
+            const [customerPhone, setCustomerPhone] = useState(currentUser ? currentUser.phone || '' : '');
+            const [street, setStreet] = useState(currentUser && currentUser.address ? currentUser.address.street || '' : '');
+            const [city, setCity] = useState(currentUser && currentUser.address ? currentUser.address.city || '' : '');
+            const [state, setState] = useState(currentUser && currentUser.address ? currentUser.address.state || '' : '');
+            const [zip, setZip] = useState(currentUser && currentUser.address ? currentUser.address.zip || '' : '');
+            const [country, setCountry] = useState('India');
+            const [paymentMethod, setPaymentMethod] = useState('Credit/Debit Card');
+            const [loading, setLoading] = useState(false);
+            const [error, setError] = useState('');
+
+            const handlePlaceOrder = async (e) => {
+                e.preventDefault();
+                setError('');
+                if (!street || !city || !customerName || !customerEmail) {
+                    setError('Please complete all contact and address fields.');
+                    return;
+                }
+
+                setLoading(true);
+                try {
+                    const payload = {
+                        customerName,
+                        customerEmail,
+                        customerPhone,
+                        shippingAddress: { street, city, state, zip, country },
+                        items: cart,
+                        subtotal: cartSubtotal,
+                        shippingFee,
+                        tax,
+                        discount,
+                        promoCode,
+                        totalAmount,
+                        paymentMethod
+                    };
+
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                    const res = await fetch(`${API_BASE}/api/orders`, {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify(payload)
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        onOrderPlaced(data.order);
+                    } else {
+                        setError(data.message || 'Failed to place order.');
+                    }
+                } catch (err) {
+                    setError('Network error while placing order.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '800px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">Secure Checkout</h4>
+                                <span className="small text-secondary">Aura Luxe 256-Bit SSL Encrypted Transaction</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        {error && (
+                            <div className="alert alert-danger py-2 small d-flex align-items-center gap-2 mb-3">
+                                <i className="fa-solid fa-circle-exclamation"></i> {error}
+                            </div>
+                        )}
+
+                        <form onSubmit={handlePlaceOrder}>
+                            <div className="row g-4">
+                                <div className="col-md-7">
+                                    <h6 className="text-dark fw-semibold mb-3 small tracking-wide text-uppercase">1. Contact & Shipping Address</h6>
+                                    <div className="row g-2 mb-3">
+                                        <div className="col-12">
+                                            <label className="form-label small text-secondary">Full Name</label>
+                                            <input type="text" className="form-control-luxe w-100" required value={customerName} onChange={e => setCustomerName(e.target.value)} />
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <label className="form-label small text-secondary">Email Address</label>
+                                            <input type="email" className="form-control-luxe w-100" required value={customerEmail} onChange={e => setCustomerEmail(e.target.value)} />
+                                        </div>
+                                        <div className="col-sm-6">
+                                            <label className="form-label small text-secondary">Phone Number</label>
+                                            <input type="tel" className="form-control-luxe w-100" required value={customerPhone} onChange={e => setCustomerPhone(e.target.value)} />
+                                        </div>
+                                        <div className="col-12">
+                                            <label className="form-label small text-secondary">Street Address</label>
+                                            <input type="text" className="form-control-luxe w-100" placeholder="Flat 402, Royale Tower, Bandra West" required value={street} onChange={e => setStreet(e.target.value)} />
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <label className="form-label small text-secondary">City</label>
+                                            <input type="text" className="form-control-luxe w-100" required value={city} onChange={e => setCity(e.target.value)} />
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <label className="form-label small text-secondary">State / Province</label>
+                                            <input type="text" className="form-control-luxe w-100" required value={state} onChange={e => setState(e.target.value)} />
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <label className="form-label small text-secondary">Postal Code</label>
+                                            <input type="text" className="form-control-luxe w-100" required value={zip} onChange={e => setZip(e.target.value)} />
+                                        </div>
+                                    </div>
+
+                                    <h6 className="text-dark fw-semibold mb-3 small tracking-wide text-uppercase pt-3 border-top border-subtle">2. Payment Method</h6>
+                                    <div className="d-flex flex-column gap-2 mb-3">
+                                        {['UPI / QR Code (GPay, PhonePe, Paytm)', 'Credit/Debit Card (RuPay, Visa, MC)', 'Net Banking', 'Cash on Delivery'].map(method => (
+                                            <label key={method} className="p-3 rounded-3 d-flex align-items-center justify-content-between cursor-pointer" style={{
+                                                background: paymentMethod === method ? '#eef2ff' : '#ffffff',
+                                                border: paymentMethod === method ? '2px solid #4f46e5' : '1px solid #e2e8f0'
+                                            }}>
+                                                <div className="d-flex align-items-center gap-3">
+                                                    <input
+                                                        type="radio"
+                                                        name="payment"
+                                                        className="form-check-input m-0 cursor-pointer"
+                                                        checked={paymentMethod === method}
+                                                        onChange={() => setPaymentMethod(method)}
+                                                    />
+                                                    <span className="small text-dark fw-semibold">{method}</span>
+                                                </div>
+                                                <i className={`fa-solid ${
+                                                    method.startsWith('UPI') ? 'fa-qrcode text-info' :
+                                                    method.startsWith('Credit') ? 'fa-credit-card text-primary' :
+                                                    method === 'Net Banking' ? 'fa-building-columns text-warning' :
+                                                    'fa-hand-holding-dollar text-success'
+                                                }`}></i>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="col-md-5">
+                                    <div className="p-3 rounded-3 bg-surface border border-subtle">
+                                        <h6 className="text-dark fw-semibold mb-3 small tracking-wide text-uppercase">Order Items ({cart.length})</h6>
+                                        <div className="pe-1 mb-3" style={{ maxHeight: '180px', overflowY: 'auto' }}>
+                                            {cart.map(item => (
+                                                <div key={item.productId} className="d-flex justify-content-between align-items-center mb-2 small text-secondary">
+                                                    <span className="text-truncate me-2" style={{ maxWidth: '170px' }}>{item.quantity}x {item.title}</span>
+                                                    <span className="text-dark fw-medium">{formatINR(item.price * item.quantity)}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="border-top border-subtle pt-2">
+                                            <div className="d-flex justify-content-between small text-secondary mb-1">
+                                                <span>Subtotal</span>
+                                                <span className="text-dark">{formatINR(cartSubtotal)}</span>
+                                            </div>
+                                            <div className="d-flex justify-content-between small text-secondary mb-1">
+                                                <span>Express Shipping</span>
+                                                <span className={shippingFee === 0 ? 'text-success fw-bold' : 'text-dark'}>{shippingFee === 0 ? 'FREE' : formatINR(shippingFee)}</span>
+                                            </div>
+                                            <div className="d-flex justify-content-between small text-secondary mb-1">
+                                                <span>Estimated GST (18%)</span>
+                                                <span className="text-dark">{formatINR(tax)}</span>
+                                            </div>
+                                            {discount > 0 && (
+                                                <div className="d-flex justify-content-between small text-success mb-1">
+                                                    <span>Promo Discount</span>
+                                                    <span>-{formatINR(discount)}</span>
+                                                </div>
+                                            )}
+                                            <div className="d-flex justify-content-between fw-bold text-dark pt-2 border-top border-subtle fs-5">
+                                                <span>Total Due</span>
+                                                <span className="text-primary">{formatINR(totalAmount)}</span>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" className="btn btn-luxe-primary w-100 py-3 mt-4 fw-bold" disabled={loading}>
+                                            {loading ? (
+                                                <span><i className="fa-solid fa-spinner fa-spin me-2"></i> Confirming Order...</span>
+                                            ) : (
+                                                <span>Place Order Now ({formatINR(totalAmount)})</span>
+                                            )}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 5. ORDER SUCCESS CONFIRMATION MODAL ---
+        function OrderSuccessModal({ order, onTrackOrder, onViewDetails, onClose }) {
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5 text-center" style={{ maxWidth: '520px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div style={{
+                            width: '70px',
+                            height: '70px',
+                            borderRadius: '50%',
+                            background: '#dcfce7',
+                            color: '#15803d',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            margin: '0 auto 20px',
+                            fontSize: '2rem'
+                        }}>
+                            <i className="fa-solid fa-check"></i>
+                        </div>
+
+                        <h3 className="text-dark fw-bold mb-2">Order Confirmed!</h3>
+                        <p className="text-secondary small mb-4">
+                            Thank you, <strong className="text-dark">{order.customerName}</strong>. Your payment was authorized and your luxury order is now queued for packaging.
+                        </p>
+
+                        <div className="p-3 rounded-3 text-start mb-4 bg-surface border border-subtle">
+                            <div className="d-flex justify-content-between small text-secondary mb-2">
+                                <span>Order Number:</span>
+                                <strong className="text-dark">{order.orderId}</strong>
+                            </div>
+                            <div className="d-flex justify-content-between small text-secondary mb-2">
+                                <span>Carrier Tracking:</span>
+                                <span className="text-primary fw-bold">{order.trackingNumber}</span>
+                            </div>
+                            <div className="d-flex justify-content-between small text-secondary mb-2">
+                                <span>Estimated Delivery:</span>
+                                <span className="text-dark">{order.estimatedDelivery}</span>
+                            </div>
+                            <div className="d-flex justify-content-between small text-secondary">
+                                <span>Total Paid:</span>
+                                <span className="text-primary fw-bold">{formatINR(order.totalAmount)}</span>
+                            </div>
+                        </div>
+
+                        <div className="d-flex flex-column gap-2">
+                            <button className="btn btn-luxe-primary py-3" onClick={onTrackOrder}>
+                                <i className="fa-solid fa-truck-fast me-2"></i> Track Order Real-Time
+                            </button>
+                            <button className="btn btn-luxe-outline py-2" onClick={onViewDetails}>
+                                <i className="fa-solid fa-file-invoice me-2"></i> View Invoice Details
+                            </button>
+                            <button className="btn btn-link text-secondary small mt-2" onClick={onClose}>
+                                Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 6. MY ORDERS LIST MODAL ---
+        function MyOrdersModal({ orders, onTrack, onViewDetails, onClose }) {
+            const [filter, setFilter] = useState('All');
+
+            const filteredOrders = useMemo(() => {
+                if (filter === 'All') return orders;
+                return orders.filter(o => o.status === filter);
+            }, [orders, filter]);
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '850px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">My Order History</h4>
+                                <span className="small text-secondary">Complete breakdown of all past orders placed with your account</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <div className="d-flex gap-2 mb-4">
+                            {['All', 'Processing', 'Confirmed', 'Shipped', 'Delivered'].map(status => (
+                                <button
+                                    key={status}
+                                    className={`btn btn-sm ${filter === status ? 'btn-luxe-primary' : 'btn-luxe-outline'}`}
+                                    onClick={() => setFilter(status)}
+                                >
+                                    {status}
+                                </button>
+                            ))}
+                        </div>
+
+                        {filteredOrders.length === 0 ? (
+                            <div className="text-center py-5">
+                                <i className="fa-solid fa-box-open fa-3x text-muted mb-3"></i>
+                                <h5 className="text-dark">No orders found</h5>
+                                <p className="text-secondary small">You haven't placed any orders matching status "{filter}".</p>
+                            </div>
+                        ) : (
+                            <div className="pe-1" style={{ maxHeight: '480px', overflowY: 'auto' }}>
+                                {filteredOrders.map(order => (
+                                    <div key={order.orderId} className="p-3 mb-3 rounded-3 bg-surface border border-subtle">
+                                        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-2 border-bottom border-subtle">
+                                            <div>
+                                                <span className="fw-bold text-dark me-2">{order.orderId}</span>
+                                                <span className="small text-muted">{new Date(order.createdAt).toLocaleDateString()}</span>
+                                            </div>
+                                            <div className="d-flex align-items-center gap-2">
+                                                <span className={`badge ${
+                                                    order.status === 'Delivered' ? 'bg-success' :
+                                                    order.status === 'Shipped' ? 'bg-info text-dark' :
+                                                    order.status === 'Confirmed' ? 'bg-primary' : 'bg-warning text-dark'
+                                                }`}>
+                                                    {order.status}
+                                                </span>
+                                                <span className="small text-secondary">{order.paymentMethod}</span>
+                                            </div>
+                                        </div>
+
+                                        <div className="d-flex flex-wrap gap-2 mb-3">
+                                            {order.items.map((item, idx) => (
+                                                <div key={idx} className="d-flex align-items-center gap-2 p-2 rounded-2 bg-white border border-subtle">
+                                                    <img src={item.image} alt={item.title} style={{ width: '36px', height: '36px', objectFit: 'cover', borderRadius: '6px' }} />
+                                                    <span className="small text-dark text-truncate" style={{ maxWidth: '140px' }}>{item.quantity}x {item.title}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+
+                                        <div className="d-flex flex-wrap justify-content-between align-items-center pt-2">
+                                            <div>
+                                                <span className="small text-secondary me-2">Total Amount:</span>
+                                                <span className="fw-bold text-primary">{formatINR(order.totalAmount)}</span>
+                                            </div>
+                                            <div className="d-flex gap-2">
+                                                <button className="btn btn-luxe-outline btn-sm" onClick={() => onTrack(order.orderId)}>
+                                                    <i className="fa-solid fa-truck-fast text-primary me-1"></i> Track Order
+                                                </button>
+                                                <button className="btn btn-luxe-primary btn-sm" onClick={() => onViewDetails(order.orderId)}>
+                                                    <i className="fa-solid fa-receipt me-1"></i> Invoice Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 7. LIVE ORDER TRACKING MODAL ---
+        function OrderTrackingModal({ initialData, onSearch, onClose }) {
+            const [query, setQuery] = useState('');
+            const data = initialData;
+
+            const stages = ['Processing', 'Confirmed', 'Shipped', 'Out for Delivery', 'Delivered'];
+            const currentIndex = data ? stages.indexOf(data.status) : 0;
+            const progressPercent = currentIndex >= 0 ? (currentIndex / (stages.length - 1)) * 100 : 0;
+
+            const handleLookup = (e) => {
+                e.preventDefault();
+                if (query.trim()) {
+                    onSearch(query.trim());
+                }
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '750px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">Live Order Tracker</h4>
+                                <span className="small text-secondary">A to Z real-time shipment monitoring</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleLookup} className="d-flex gap-2 mb-4">
+                            <input
+                                type="text"
+                                className="form-control-luxe small flex-grow-1"
+                                placeholder="Enter Order ID (e.g. ORD-849201) or Tracking #..."
+                                value={query}
+                                onChange={e => setQuery(e.target.value)}
+                            />
+                            <button type="submit" className="btn btn-luxe-primary btn-sm px-3">
+                                <i className="fa-solid fa-magnifying-glass me-1"></i> Track
+                            </button>
+                        </form>
+
+                        {data ? (
+                            <div>
+                                <div className="p-3 rounded-3 mb-4 bg-surface border border-subtle">
+                                    <div className="row g-3">
+                                        <div className="col-sm-3 col-6">
+                                            <span className="small text-secondary d-block">Order ID</span>
+                                            <strong className="text-dark">{data.orderId}</strong>
+                                        </div>
+                                        <div className="col-sm-3 col-6">
+                                            <span className="small text-secondary d-block">Carrier & Tracking</span>
+                                            <span className="text-primary fw-bold">{data.carrier} #{data.trackingNumber}</span>
+                                        </div>
+                                        <div className="col-sm-3 col-6">
+                                            <span className="small text-secondary d-block">Estimated Delivery</span>
+                                            <span className="text-dark fw-medium">{data.estimatedDelivery}</span>
+                                        </div>
+                                        <div className="col-sm-3 col-6">
+                                            <span className="small text-secondary d-block">Current Status</span>
+                                            <span className="badge bg-primary text-white">{data.status}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="stepper-track px-2">
+                                    <div className="stepper-line"></div>
+                                    <div className="stepper-progress" style={{ width: `${progressPercent}%` }}></div>
+
+                                    {stages.map((stage, idx) => {
+                                        const isCompleted = idx <= currentIndex;
+                                        const isActive = idx === currentIndex;
+                                        return (
+                                            <div key={stage} className={`stepper-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`}>
+                                                <div className="stepper-circle">
+                                                    {isCompleted ? <i className="fa-solid fa-check"></i> : (idx + 1)}
+                                                </div>
+                                                <span className="small text-dark mt-2 fw-semibold" style={{ fontSize: '0.75rem' }}>{stage}</span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+
+                                <h6 className="text-dark fw-semibold mt-4 mb-3 small tracking-wide text-uppercase">Tracking Activity Log</h6>
+                                <div className="pe-1" style={{ maxHeight: '220px', overflowY: 'auto' }}>
+                                    {data.timeline && data.timeline.map((step, idx) => (
+                                        <div key={idx} className="d-flex gap-3 mb-3 position-relative">
+                                            <div style={{
+                                                width: '12px',
+                                                height: '12px',
+                                                borderRadius: '50%',
+                                                background: step.completed ? '#4f46e5' : '#cbd5e1',
+                                                marginTop: '5px',
+                                                flexShrink: 0
+                                            }}></div>
+                                            <div>
+                                                <div className="fw-semibold text-dark small">{step.title}</div>
+                                                <div className="text-secondary small" style={{ fontSize: '0.78rem' }}>{step.description}</div>
+                                                <div className="text-muted" style={{ fontSize: '0.72rem' }}>
+                                                    {new Date(step.time).toLocaleString()}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="text-center py-4 text-secondary small">
+                                Enter your Order ID above or select an order from your history to view real-time tracking milestones.
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 8. ORDER DETAILS / INVOICE MODAL ---
+        function OrderDetailModal({ order, onClose }) {
+            const printInvoice = () => {
+                window.print();
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '750px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">Order Invoice</h4>
+                                <span className="small text-secondary">ID: {order.orderId} • Date: {new Date(order.createdAt).toLocaleDateString()}</span>
+                            </div>
+                            <div className="d-flex gap-2">
+                                <button className="btn btn-luxe-outline btn-sm" onClick={printInvoice}>
+                                    <i className="fa-solid fa-print me-1"></i> Print
+                                </button>
+                                <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="row g-3 mb-4 p-3 rounded-3 bg-surface border border-subtle">
+                            <div className="col-sm-6">
+                                <span className="small text-secondary d-block text-uppercase" style={{ fontSize: '0.7rem' }}>Customer Details</span>
+                                <strong className="text-dark">{order.customerName}</strong>
+                                <div className="small text-secondary">{order.customerEmail}</div>
+                                <div className="small text-secondary">{order.customerPhone}</div>
+                            </div>
+                            <div className="col-sm-6">
+                                <span className="small text-secondary d-block text-uppercase" style={{ fontSize: '0.7rem' }}>Delivery Address</span>
+                                <div className="small text-secondary">{order.shippingAddress.street}</div>
+                                <div className="small text-secondary">{order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.zip}</div>
+                                <div className="small text-secondary">{order.shippingAddress.country}</div>
+                            </div>
+                        </div>
+
+                        <div className="table-responsive mb-4">
+                            <table className="table table-hover align-middle small mb-0">
+                                <thead className="border-bottom border-subtle text-secondary text-uppercase" style={{ fontSize: '0.75rem', background: '#f8fafc' }}>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th className="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {order.items.map((item, i) => (
+                                        <tr key={i} className="border-bottom border-subtle">
+                                            <td className="d-flex align-items-center gap-2 py-3">
+                                                <img src={item.image} alt={item.title} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '6px' }} />
+                                                <span className="text-dark fw-semibold">{item.title}</span>
+                                            </td>
+                                            <td className="text-secondary">{formatINR(item.price)}</td>
+                                            <td className="text-secondary">{item.quantity}</td>
+                                            <td className="text-end text-dark fw-bold">{formatINR(item.price * item.quantity)}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="row justify-content-end">
+                            <div className="col-sm-6">
+                                <div className="p-3 rounded-3 bg-surface border border-subtle">
+                                    <div className="d-flex justify-content-between small text-secondary mb-1">
+                                        <span>Subtotal</span>
+                                        <span className="text-dark">{formatINR(order.subtotal)}</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between small text-secondary mb-1">
+                                        <span>Shipping</span>
+                                        <span className="text-dark">{order.shippingFee === 0 ? 'FREE' : formatINR(order.shippingFee)}</span>
+                                    </div>
+                                    <div className="d-flex justify-content-between small text-secondary mb-1">
+                                        <span>Tax</span>
+                                        <span className="text-dark">{formatINR(order.tax)}</span>
+                                    </div>
+                                    {order.discount > 0 && (
+                                        <div className="d-flex justify-content-between small text-success mb-1">
+                                            <span>Promo Discount</span>
+                                            <span>-{formatINR(order.discount)}</span>
+                                        </div>
+                                    )}
+                                    <div className="d-flex justify-content-between fw-bold text-dark pt-2 border-top border-subtle fs-5">
+                                        <span>Total</span>
+                                        <span className="text-primary">{formatINR(order.totalAmount)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 9. PRODUCT QUICK VIEW / DETAILS MODAL ---
+        function ProductDetailModal({ product, activeImg, setActiveImg, isWishlisted, onToggleWishlist, onAddToCart, token, onReviewAdded, onClose }) {
+            const [qty, setQty] = useState(1);
+            const [activeTab, setActiveTab] = useState('details');
+            const [newRating, setNewRating] = useState(5);
+            const [newComment, setNewComment] = useState('');
+            const [submittingReview, setSubmittingReview] = useState(false);
+
+            const handleReviewSubmit = async (e) => {
+                e.preventDefault();
+                if (!newComment.trim()) return;
+                setSubmittingReview(true);
+                try {
+                    const headers = { 'Content-Type': 'application/json' };
+                    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+                    const res = await fetch(`${API_BASE}/api/products/${product.id}/review`, {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({ rating: newRating, comment: newComment })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        onReviewAdded(data.product);
+                        setNewComment('');
+                    }
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    setSubmittingReview(false);
+                }
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '900px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <button className="btn btn-sm btn-outline-secondary rounded-circle position-absolute top-0 end-0 m-3" onClick={onClose}>
+                            <i className="fa-solid fa-xmark"></i>
+                        </button>
+
+                        <div className="row g-4">
+                            <div className="col-md-6">
+                                <div className="rounded-4 overflow-hidden mb-3 border border-subtle" style={{ height: '360px', background: '#f8fafc' }}>
+                                    <img src={activeImg || product.image} alt={product.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </div>
+                                {product.images && product.images.length > 1 && (
+                                    <div className="d-flex gap-2">
+                                        {product.images.map((img, i) => (
+                                            <img
+                                                key={i}
+                                                src={img}
+                                                alt={`thumb-${i}`}
+                                                className={`cursor-pointer rounded-2 border ${activeImg === img ? 'border-primary' : 'border-subtle opacity-75'}`}
+                                                style={{ width: '60px', height: '60px', objectFit: 'cover' }}
+                                                onClick={() => setActiveImg(img)}
+                                            />
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="col-md-6 d-flex flex-column">
+                                <div className="d-flex justify-content-between align-items-center mb-1">
+                                    <span className="badge-pill-cyan text-uppercase">{product.category}</span>
+                                    <span className="text-secondary small">Brand: <strong className="text-dark">{product.brand}</strong></span>
+                                </div>
+
+                                <h4 className="text-dark fw-bold mt-2 mb-2">{product.title}</h4>
+
+                                <div className="d-flex align-items-center gap-2 mb-3">
+                                    <span className="text-warning small d-flex align-items-center gap-1">
+                                        <i className="fa-solid fa-star"></i>
+                                        <strong className="text-dark">{product.rating}</strong>
+                                    </span>
+                                    <span className="text-muted small">• {product.reviewCount} customer reviews</span>
+                                    <span className="badge bg-success ms-2" style={{ fontSize: '0.65rem' }}>IN STOCK ({product.stock})</span>
+                                </div>
+
+                                <div className="d-flex align-items-baseline gap-2 mb-3">
+                                    <span className="fs-3 fw-bold text-primary">{formatINR(product.price)}</span>
+                                    {product.originalPrice > product.price && (
+                                        <span className="text-muted text-decoration-line-through">{formatINR(product.originalPrice)}</span>
+                                    )}
+                                    {product.discount > 0 && (
+                                        <span className="badge bg-danger ms-2">{product.discount}% OFF</span>
+                                    )}
+                                </div>
+
+                                <p className="text-secondary small mb-3">{product.description}</p>
+
+                                <div className="d-flex gap-3 border-bottom border-subtle pb-2 mb-3">
+                                    <button className={`btn btn-sm btn-link p-0 text-decoration-none ${activeTab === 'details' ? 'text-primary fw-bold border-bottom border-primary pb-2' : 'text-secondary'}`} onClick={() => setActiveTab('details')}>Features</button>
+                                    <button className={`btn btn-sm btn-link p-0 text-decoration-none ${activeTab === 'specs' ? 'text-primary fw-bold border-bottom border-primary pb-2' : 'text-secondary'}`} onClick={() => setActiveTab('specs')}>Specifications</button>
+                                    <button className={`btn btn-sm btn-link p-0 text-decoration-none ${activeTab === 'reviews' ? 'text-primary fw-bold border-bottom border-primary pb-2' : 'text-secondary'}`} onClick={() => setActiveTab('reviews')}>Reviews ({product.reviewCount})</button>
+                                </div>
+
+                                <div className="flex-grow-1 mb-3" style={{ maxHeight: '160px', overflowY: 'auto' }}>
+                                    {activeTab === 'details' && (
+                                        <ul className="list-unstyled small text-secondary d-flex flex-column gap-2 mb-0">
+                                            {product.features && product.features.map((feat, i) => (
+                                                <li key={i} className="d-flex align-items-center gap-2">
+                                                    <i className="fa-solid fa-circle-check text-success fa-xs"></i>
+                                                    <span>{feat}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+
+                                    {activeTab === 'specs' && (
+                                        <div className="small">
+                                            {product.specifications && Object.entries(product.specifications).map(([key, val]) => (
+                                                <div key={key} className="d-flex justify-content-between py-1 border-bottom border-subtle">
+                                                    <span className="text-secondary">{key}</span>
+                                                    <span className="text-dark fw-semibold">{val}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {activeTab === 'reviews' && (
+                                        <div>
+                                            <div className="mb-3">
+                                                {product.reviews && product.reviews.map((r, i) => (
+                                                    <div key={i} className="p-2 rounded-2 mb-2 bg-surface border border-subtle">
+                                                        <div className="d-flex justify-content-between small mb-1">
+                                                            <strong className="text-dark">{r.userName}</strong>
+                                                            <span className="text-warning"><i className="fa-solid fa-star fa-xs"></i> {r.rating}</span>
+                                                        </div>
+                                                        <p className="text-secondary small mb-0">{r.comment}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <form onSubmit={handleReviewSubmit} className="pt-2 border-top border-subtle">
+                                                <div className="d-flex align-items-center gap-2 mb-2">
+                                                    <label className="small text-secondary">Your Rating:</label>
+                                                    <select className="form-select-luxe small py-1" value={newRating} onChange={e => setNewRating(e.target.value)}>
+                                                        <option value="5">★★★★★ (5 Stars)</option>
+                                                        <option value="4">★★★★☆ (4 Stars)</option>
+                                                        <option value="3">★★★☆☆ (3 Stars)</option>
+                                                    </select>
+                                                </div>
+                                                <div className="d-flex gap-2">
+                                                    <input
+                                                        type="text"
+                                                        className="form-control-luxe small flex-grow-1"
+                                                        placeholder="Write a quick customer review..."
+                                                        value={newComment}
+                                                        onChange={e => setNewComment(e.target.value)}
+                                                    />
+                                                    <button type="submit" className="btn btn-luxe-primary btn-sm" disabled={submittingReview}>
+                                                        Post
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="mt-auto d-flex align-items-center gap-3 pt-3 border-top border-subtle">
+                                    <div className="d-flex align-items-center gap-2">
+                                        <button className="quantity-btn" onClick={() => setQty(Math.max(1, qty - 1))}>-</button>
+                                        <span className="fw-bold px-2 text-dark">{qty}</span>
+                                        <button className="quantity-btn" onClick={() => setQty(qty + 1)}>+</button>
+                                    </div>
+                                    <button className="btn btn-luxe-primary flex-grow-1 py-2 fw-semibold" onClick={() => { onAddToCart(qty); onClose(); }}>
+                                        <i className="fa-solid fa-cart-plus me-2"></i> Add to Cart ({formatINR(product.price * qty)})
+                                    </button>
+                                    <button
+                                        className={`btn btn-luxe-outline px-3 ${isWishlisted ? 'text-danger' : ''}`}
+                                        onClick={onToggleWishlist}
+                                        title={isWishlisted ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                                    >
+                                        <i className={`fa-${isWishlisted ? 'solid' : 'regular'} fa-heart`}></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 10. ADMIN ORDERS MANAGEMENT MODAL ---
+        function AdminOrdersModal({ orders, onUpdateStatus, onTrack, onClose }) {
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '900px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">Admin Order Control Panel</h4>
+                                <span className="small text-secondary">Update statuses in MongoDB to simulate live order tracker milestones</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <div className="table-responsive" style={{ maxHeight: '480px', overflowY: 'auto' }}>
+                            <table className="table table-hover align-middle small mb-0">
+                                <thead className="border-bottom border-subtle text-secondary text-uppercase" style={{ fontSize: '0.75rem', background: '#f8fafc' }}>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Items</th>
+                                        <th>Total</th>
+                                        <th>Status Controller</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {orders.map(order => (
+                                        <tr key={order.orderId} className="border-bottom border-subtle">
+                                            <td className="fw-semibold text-dark">{order.orderId}</td>
+                                            <td>
+                                                <div className="text-dark small fw-medium">{order.customerName}</div>
+                                                <div className="text-muted" style={{ fontSize: '0.7rem' }}>{order.customerEmail}</div>
+                                            </td>
+                                            <td className="text-secondary">{order.items.length} items</td>
+                                            <td className="text-primary fw-bold">{formatINR(order.totalAmount)}</td>
+                                            <td>
+                                                <select
+                                                    className="form-select-luxe small py-1"
+                                                    value={order.status}
+                                                    onChange={e => onUpdateStatus(order.orderId, e.target.value)}
+                                                >
+                                                    <option value="Processing">Processing</option>
+                                                    <option value="Confirmed">Confirmed</option>
+                                                    <option value="Shipped">Shipped</option>
+                                                    <option value="Out for Delivery">Out for Delivery</option>
+                                                    <option value="Delivered">Delivered</option>
+                                                    <option value="Cancelled">Cancelled</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button className="btn btn-luxe-outline btn-sm" onClick={() => onTrack(order.orderId)}>
+                                                    <i className="fa-solid fa-truck-fast text-primary"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // --- 11. USER PROFILE & ADDRESS MODAL ---
+        function UserProfileModal({ user, token, onUserUpdated, onClose }) {
+            const [name, setName] = useState(user.name);
+            const [phone, setPhone] = useState(user.phone || '');
+            const [street, setStreet] = useState(user.address ? user.address.street || '' : '');
+            const [city, setCity] = useState(user.address ? user.address.city || '' : '');
+            const [state, setState] = useState(user.address ? user.address.state || '' : '');
+            const [zip, setZip] = useState(user.address ? user.address.zip || '' : '');
+            const [loading, setLoading] = useState(false);
+
+            const handleSave = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                try {
+                    const res = await fetch(`${API_BASE}/api/auth/profile`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            name,
+                            phone,
+                            address: { street, city, state, zip }
+                        })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        onUserUpdated(data.user);
+                    }
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="modal-overlay" onClick={onClose}>
+                    <div className="modal-content-luxe p-4 p-md-5" style={{ maxWidth: '550px', width: '100%' }} onClick={e => e.stopPropagation()}>
+                        <div className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-subtle">
+                            <div>
+                                <h4 className="text-dark fw-bold mb-0">My Account Profile</h4>
+                                <span className="small text-secondary">{user.email}</span>
+                            </div>
+                            <button className="btn btn-sm btn-outline-secondary rounded-circle" onClick={onClose}>
+                                <i className="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+
+                        <form onSubmit={handleSave}>
+                            <div className="mb-3">
+                                <label className="form-label small text-secondary">Full Name</label>
+                                <input type="text" className="form-control-luxe w-100" value={name} onChange={e => setName(e.target.value)} required />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label small text-secondary">Phone Number</label>
+                                <input type="tel" className="form-control-luxe w-100" value={phone} onChange={e => setPhone(e.target.value)} />
+                            </div>
+                            <div className="mb-3">
+                                <label className="form-label small text-secondary">Street Address</label>
+                                <input type="text" className="form-control-luxe w-100" value={street} onChange={e => setStreet(e.target.value)} />
+                            </div>
+                            <div className="row g-2 mb-4">
+                                <div className="col-sm-5">
+                                    <label className="form-label small text-secondary">City</label>
+                                    <input type="text" className="form-control-luxe w-100" value={city} onChange={e => setCity(e.target.value)} />
+                                </div>
+                                <div className="col-sm-4">
+                                    <label className="form-label small text-secondary">State</label>
+                                    <input type="text" className="form-control-luxe w-100" value={state} onChange={e => setState(e.target.value)} />
+                                </div>
+                                <div className="col-sm-3">
+                                    <label className="form-label small text-secondary">ZIP</label>
+                                    <input type="text" className="form-control-luxe w-100" value={zip} onChange={e => setZip(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <button type="submit" className="btn btn-luxe-primary w-100 py-3 fw-bold" disabled={loading}>
+                                {loading ? 'Saving Changes...' : 'Save Profile Details'}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
